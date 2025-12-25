@@ -3,7 +3,7 @@
 
 
 /* An example of calling a C function. */
-double my_sum(double a, double b) {
+float my_sum(float a, float b) {
     printf("Called C function with %f and %f.\n", a, b);
     return a + b;
 }
@@ -22,7 +22,7 @@ int main(int argc, char *argv[])
     te_expr *n = te_compile(expression, vars, 1, &err);
 
     if (n) {
-        const double r = te_eval(n);
+        const float r = te_eval(n);
         printf("Result:\n\t%f\n", r);
         te_free(n);
     } else {

@@ -29,7 +29,7 @@
 
 typedef struct {
     const char *expr;
-    double answer;
+    float answer;
 } test_case;
 
 typedef struct {
@@ -150,10 +150,10 @@ void test_results() {
     int i;
     for (i = 0; i < sizeof(cases) / sizeof(test_case); ++i) {
         const char *expr = cases[i].expr;
-        const double answer = cases[i].answer;
+        const float answer = cases[i].answer;
 
         int err;
-        const double ev = te_interp(expr, &err);
+        const float ev = te_interp(expr, &err);
         lok(!err);
         lfequal(ev, answer);
 
@@ -189,7 +189,7 @@ void test_syntax() {
         const int e = errors[i].answer;
 
         int err;
-        const double r = te_interp(expr, &err);
+        const float r = te_interp(expr, &err);
         lequal(err, e);
         lok(r != r);
 
@@ -201,7 +201,7 @@ void test_syntax() {
             printf("FAILED: %s\n", expr);
         }
 
-        const double k = te_interp(expr, 0);
+        const float k = te_interp(expr, 0);
         lok(k != k);
     }
 }
@@ -228,14 +228,14 @@ void test_nans() {
         const char *expr = nans[i];
 
         int err;
-        const double r = te_interp(expr, &err);
+        const float r = te_interp(expr, &err);
         lequal(err, 0);
         lok(r != r);
 
         te_expr *n = te_compile(expr, 0, 0, &err);
         lok(n);
         lequal(err, 0);
-        const double c = te_eval(n);
+        const float c = te_eval(n);
         lok(c != c);
         te_free(n);
     }
@@ -262,14 +262,14 @@ void test_infs() {
         const char *expr = infs[i];
 
         int err;
-        const double r = te_interp(expr, &err);
+        const float r = te_interp(expr, &err);
         lequal(err, 0);
         lok(r == r + 1);
 
         te_expr *n = te_compile(expr, 0, 0, &err);
         lok(n);
         lequal(err, 0);
-        const double c = te_eval(n);
+        const float c = te_eval(n);
         lok(c == c + 1);
         te_free(n);
     }
@@ -278,7 +278,7 @@ void test_infs() {
 
 void test_variables() {
 
-    double x, y, test;
+    float x, y, test;
     te_variable lookup[] = {{"x", &x}, {"y", &y}, {"te_st", &test}};
 
     int err;
@@ -301,7 +301,7 @@ void test_variables() {
 
     for (y = 2; y < 3; ++y) {
         for (x = 0; x < 5; ++x) {
-            double ev;
+            float ev;
 
             ev = te_eval(expr1);
             lfequal(ev, cos(x) + sin(y));
@@ -354,7 +354,7 @@ void test_variables() {
 
 void test_functions() {
 
-    double x, y;
+    float x, y;
     te_variable lookup[] = {{"x", &x}, {"y", &y}};
 
     int err;
@@ -387,35 +387,35 @@ void test_functions() {
 }
 
 
-double sum0() {
+float sum0() {
     return 6;
 }
-double sum1(double a) {
+float sum1(float a) {
     return a * 2;
 }
-double sum2(double a, double b) {
+float sum2(float a, float b) {
     return a + b;
 }
-double sum3(double a, double b, double c) {
+float sum3(float a, float b, float c) {
     return a + b + c;
 }
-double sum4(double a, double b, double c, double d) {
+float sum4(float a, float b, float c, float d) {
     return a + b + c + d;
 }
-double sum5(double a, double b, double c, double d, double e) {
+float sum5(float a, float b, float c, float d, float e) {
     return a + b + c + d + e;
 }
-double sum6(double a, double b, double c, double d, double e, double f) {
+float sum6(float a, float b, float c, float d, float e, float f) {
     return a + b + c + d + e + f;
 }
-double sum7(double a, double b, double c, double d, double e, double f, double g) {
+float sum7(float a, float b, float c, float d, float e, float f, float g) {
     return a + b + c + d + e + f + g;
 }
 
 
 void test_dynamic() {
 
-    double x, f;
+    float x, f;
     te_variable lookup[] = {
         {"x", &x},
         {"f", &f},
@@ -460,7 +460,7 @@ void test_dynamic() {
     int i;
     for (i = 0; i < sizeof(cases) / sizeof(test_case); ++i) {
         const char *expr = cases[i].expr;
-        const double answer = cases[i].answer;
+        const float answer = cases[i].answer;
 
         int err;
         te_expr *ex = te_compile(expr, lookup, sizeof(lookup)/sizeof(te_variable), &err);
@@ -471,28 +471,28 @@ void test_dynamic() {
 }
 
 
-double clo0(void *context) {
-    if (context) return *((double*)context) + 6;
+float clo0(void *context) {
+    if (context) return *((float*)context) + 6;
     return 6;
 }
-double clo1(void *context, double a) {
-    if (context) return *((double*)context) + a * 2;
+float clo1(void *context, float a) {
+    if (context) return *((float*)context) + a * 2;
     return a * 2;
 }
-double clo2(void *context, double a, double b) {
-    if (context) return *((double*)context) + a + b;
+float clo2(void *context, float a, float b) {
+    if (context) return *((float*)context) + a + b;
     return a + b;
 }
 
-double cell(void *context, double a) {
-    double *c = context;
+float cell(void *context, float a) {
+    float *c = context;
     return c[(int)a];
 }
 
 void test_closure() {
 
-    double extra;
-    double c[] = {5,6,7,8,9};
+    float extra;
+    float c[] = {5,6,7,8,9};
 
     te_variable lookup[] = {
         {"c0", clo0, TE_CLOSURE0, &extra},
@@ -510,7 +510,7 @@ void test_closure() {
     int i;
     for (i = 0; i < sizeof(cases) / sizeof(test_case); ++i) {
         const char *expr = cases[i].expr;
-        const double answer = cases[i].answer;
+        const float answer = cases[i].answer;
 
         int err;
         te_expr *ex = te_compile(expr, lookup, sizeof(lookup)/sizeof(te_variable), &err);
@@ -535,7 +535,7 @@ void test_closure() {
 
     for (i = 0; i < sizeof(cases2) / sizeof(test_case); ++i) {
         const char *expr = cases2[i].expr;
-        const double answer = cases2[i].answer;
+        const float answer = cases2[i].answer;
 
         int err;
         te_expr *ex = te_compile(expr, lookup, sizeof(lookup)/sizeof(te_variable), &err);
@@ -557,7 +557,7 @@ void test_optimize() {
     int i;
     for (i = 0; i < sizeof(cases) / sizeof(test_case); ++i) {
         const char *expr = cases[i].expr;
-        const double answer = cases[i].answer;
+        const float answer = cases[i].answer;
 
         int err;
         te_expr *ex = te_compile(expr, 0, 0, &err);
@@ -612,7 +612,7 @@ void test_pow() {
     };
 #endif
 
-    double a = 2, b = 3;
+    float a = 2, b = 3;
 
     te_variable lookup[] = {
         {"a", &a},
@@ -630,8 +630,8 @@ void test_pow() {
         lok(ex1);
         lok(ex2);
 
-        double r1 = te_eval(ex1);
-        double r2 = te_eval(ex2);
+        float r1 = te_eval(ex1);
+        float r2 = te_eval(ex2);
 
         fflush(stdout);
         const int olfail = lfails;
@@ -676,10 +676,10 @@ void test_combinatorics() {
     int i;
     for (i = 0; i < sizeof(cases) / sizeof(test_case); ++i) {
         const char *expr = cases[i].expr;
-        const double answer = cases[i].answer;
+        const float answer = cases[i].answer;
 
         int err;
-        const double ev = te_interp(expr, &err);
+        const float ev = te_interp(expr, &err);
         lok(!err);
         lfequal(ev, answer);
 
