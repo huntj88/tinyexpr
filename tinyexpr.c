@@ -235,6 +235,54 @@ static float divide(float a, float b) {return a / b;}
 static float negate(float a) {return -a;}
 static float comma(float a, float b) {(void)a; return b;}
 
+static float te_strtof(const char* str, char** endptr) {
+    float result = 0.0f;
+    float sign = 1.0f;
+    if (*str == '-') {
+        sign = -1.0f;
+        str++;
+    } else if (*str == '+') {
+        str++;
+    }
+
+    while (*str >= '0' && *str <= '9') {
+        result = result * 10.0f + (*str - '0');
+        str++;
+    }
+
+    if (*str == '.') {
+        str++;
+        float fraction = 1.0f;
+        while (*str >= '0' && *str <= '9') {
+            fraction /= 10.0f;
+            result += (*str - '0') * fraction;
+            str++;
+        }
+    }
+
+    if (*str == 'e' || *str == 'E') {
+        str++;
+        int exponent = 0;
+        int exp_sign = 1;
+        if (*str == '-') {
+            exp_sign = -1;
+            str++;
+        } else if (*str == '+') {
+            str++;
+        }
+        while (*str >= '0' && *str <= '9') {
+            exponent = exponent * 10 + (*str - '0');
+            str++;
+        }
+        float p = 1.0f;
+        for (int i = 0; i < exponent; i++) p *= 10.0f;
+        if (exp_sign == -1) result /= p;
+        else result *= p;
+    }
+
+    if (endptr) *endptr = (char*)str;
+    return result * sign;
+}
 
 void next_token(state *s) {
     s->type = TOK_NULL;
@@ -248,7 +296,7 @@ void next_token(state *s) {
 
         /* Try reading a number. */
         if ((s->next[0] >= '0' && s->next[0] <= '9') || s->next[0] == '.') {
-            s->value = strtof(s->next, (char**)&s->next);
+            s->value = te_strtof(s->next, (char**)&s->next);
             s->type = TOK_NUMBER;
         } else {
             /* Look for a variable or builtin function call. */
