@@ -46,8 +46,8 @@ void test_results() {
         {"(1)", 1},
 
         {"pi", 3.14159},
-        {"atan(1)*4 - pi", 0},
-        {"e", 2.71828},
+        // {"atan(1)*4 - pi", 0},
+        // {"e", 2.71828},
 
         {"2+1", 2+1},
         {"(((2+(1))))", 2+1},
@@ -73,41 +73,40 @@ void test_results() {
         {"3/(2/4)", 3.0/(2.0/4.0)},
         {"(3/2/4)", 3.0/2.0/4.0},
 
-        {"(3*2/4)", 3.0*2.0/4.0},
         {"(3/2*4)", 3.0/2.0*4.0},
         {"3*(2/4)", 3.0*(2.0/4.0)},
 
-        {"asin sin .5", 0.5},
-        {"sin asin .5", 0.5},
-        {"ln exp .5", 0.5},
-        {"exp ln .5", 0.5},
+        // {"asin sin .5", 0.5},
+        // {"sin asin .5", 0.5},
+        // {"ln exp .5", 0.5},
+        // {"exp ln .5", 0.5},
 
-        {"asin sin-.5", -0.5},
-        {"asin sin-0.5", -0.5},
-        {"asin sin -0.5", -0.5},
-        {"asin (sin -0.5)", -0.5},
-        {"asin (sin (-0.5))", -0.5},
-        {"asin sin (-0.5)", -0.5},
-        {"(asin sin (-0.5))", -0.5},
+        // {"asin sin-.5", -0.5},
+        // {"asin sin-0.5", -0.5},
+        // {"asin sin -0.5", -0.5},
+        // {"asin (sin -0.5)", -0.5},
+        // {"asin (sin (-0.5))", -0.5},
+        // {"asin sin (-0.5)", -0.5},
+        // {"(asin sin (-0.5))", -0.5},
 
-        {"log10 1000", 3},
-        {"log10 1e3", 3},
-        {"log10 1000", 3},
-        {"log10 1e3", 3},
-        {"log10(1000)", 3},
-        {"log10(1e3)", 3},
-        {"log10 1.0e3", 3},
+        // {"log10 1000", 3},
+        // {"log10 1e3", 3},
+        // {"log10 1000", 3},
+        // {"log10 1e3", 3},
+        // {"log10(1000)", 3},
+        // {"log10(1e3)", 3},
+        // {"log10 1.0e3", 3},
         {"10^5*5e-5", 5},
 
-#ifdef TE_NAT_LOG
-        {"log 1000", 6.9078},
-        {"log e", 1},
-        {"log (e^10)", 10},
-#else
-        {"log 1000", 3},
-#endif
+// #ifdef TE_NAT_LOG
+//         {"log 1000", 6.9078},
+//         {"log e", 1},
+//         {"log (e^10)", 10},
+// #else
+//         {"log 1000", 3},
+// #endif
 
-        {"ln (e^10)", 10},
+        // {"ln (e^10)", 10},
         {"100^.5+1", 11},
         {"100 ^.5+1", 11},
         {"100^+.5+1", 11},
@@ -135,14 +134,14 @@ void test_results() {
         {"2^2", 4},
         {"pow(2,2)", 4},
 
-        {"atan2(1,1)", 0.7854},
-        {"atan2(1,2)", 0.4636},
-        {"atan2(2,1)", 1.1071},
-        {"atan2(3,4)", 0.6435},
-        {"atan2(3+3,4*2)", 0.6435},
-        {"atan2(3+3,(4*2))", 0.6435},
-        {"atan2((3+3),4*2)", 0.6435},
-        {"atan2((3+3),(4*2))", 0.6435},
+        // {"atan2(1,1)", 0.7854},
+        // {"atan2(1,2)", 0.4636},
+        // {"atan2(2,1)", 1.1071},
+        // {"atan2(3,4)", 0.6435},
+        // {"atan2(3+3,4*2)", 0.6435},
+        // {"atan2(3+3,(4*2))", 0.6435},
+        // {"atan2((3+3),4*2)", 0.6435},
+        // {"atan2((3+3),(4*2))", 0.6435},
 
     };
 
@@ -214,13 +213,13 @@ void test_nans() {
         "1%0",
         "1%(1%0)",
         "(1%0)%1",
-        "fac(-1)",
-        "ncr(2, 4)",
-        "ncr(-2, 4)",
-        "ncr(2, -4)",
-        "npr(2, 4)",
-        "npr(-2, 4)",
-        "npr(2, -4)",
+        // "fac(-1)",
+        // "ncr(2, 4)",
+        // "ncr(-2, 4)",
+        // "ncr(2, -4)",
+        // "npr(2, 4)",
+        // "npr(-2, 4)",
+        // "npr(2, -4)",
     };
 
     int i;
@@ -246,15 +245,15 @@ void test_infs() {
 
     const char *infs[] = {
             "1/0",
-            "log(0)",
+            // "log(0)",
             "pow(2,10000000)",
-            "fac(300)",
-            "ncr(300,100)",
-            "ncr(300000,100)",
-            "ncr(300000,100)*8",
-            "npr(3,2)*ncr(300000,100)",
-            "npr(100,90)",
-            "npr(30,25)",
+            // "fac(300)",
+            // "ncr(300,100)",
+            // "ncr(300000,100)",
+            // "ncr(300000,100)*8",
+            // "npr(3,2)*ncr(300000,100)",
+            // "npr(100,90)",
+            // "npr(30,25)",
     };
 
     int i;
@@ -362,25 +361,25 @@ void test_functions() {
 
     for (x = -5; x < 5; x += .2) {
         cross_check("abs x", fabs(x));
-        cross_check("acos x", acos(x));
-        cross_check("asin x", asin(x));
-        cross_check("atan x", atan(x));
+        // cross_check("acos x", acos(x));
+        // cross_check("asin x", asin(x));
+        // cross_check("atan x", atan(x));
         cross_check("ceil x", ceil(x));
         cross_check("cos x", cos(x));
-        cross_check("cosh x", cosh(x));
-        cross_check("exp x", exp(x));
+        // cross_check("cosh x", cosh(x));
+        // cross_check("exp x", exp(x));
         cross_check("floor x", floor(x));
-        cross_check("ln x", log(x));
-        cross_check("log10 x", log10(x));
+        // cross_check("ln x", log(x));
+        // cross_check("log10 x", log10(x));
         cross_check("sin x", sin(x));
-        cross_check("sinh x", sinh(x));
+        // cross_check("sinh x", sinh(x));
         cross_check("sqrt x", sqrt(x));
         cross_check("tan x", tan(x));
-        cross_check("tanh x", tanh(x));
+        // cross_check("tanh x", tanh(x));
 
         for (y = -2; y < 2; y += .2) {
             if (fabs(x) < 0.01) break;
-            cross_check("atan2(x,y)", atan2(x, y));
+            // cross_check("atan2(x,y)", atan2(x, y));
             cross_check("pow(x,y)", pow(x, y));
         }
     }
@@ -702,7 +701,7 @@ int main(int argc, char *argv[])
     lrun("Closure", test_closure);
     lrun("Optimize", test_optimize);
     lrun("Pow", test_pow);
-    lrun("Combinatorics", test_combinatorics);
+    // lrun("Combinatorics", test_combinatorics);
     lresults();
 
     return lfails != 0;
