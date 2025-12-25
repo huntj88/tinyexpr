@@ -689,6 +689,40 @@ void test_combinatorics() {
 }
 
 
+void test_number_parsing() {
+    test_case cases[] = {
+        {"0", 0},
+        {"1", 1},
+        {"123", 123},
+        {"123.456", 123.456},
+        {".456", 0.456},
+        {"123.", 123},
+        {"1e2", 100},
+        {"1E2", 100},
+        {"1e+2", 100},
+        {"1e-2", 0.01},
+        {"1.2e2", 120},
+        {".5e2", 50},
+        {"1.e2", 100},
+    };
+
+    int i;
+    for (i = 0; i < sizeof(cases) / sizeof(test_case); ++i) {
+        const char *expr = cases[i].expr;
+        const float answer = cases[i].answer;
+
+        int err;
+        const float ev = te_interp(expr, &err);
+        lok(!err);
+        lfequal(ev, answer);
+
+        if (err) {
+            printf("FAILED: %s (%d)\n", expr, err);
+        }
+    }
+}
+
+
 int main(int argc, char *argv[])
 {
     lrun("Results", test_results);
@@ -701,6 +735,7 @@ int main(int argc, char *argv[])
     lrun("Closure", test_closure);
     lrun("Optimize", test_optimize);
     lrun("Pow", test_pow);
+    lrun("Number Parsing", test_number_parsing);
     // lrun("Combinatorics", test_combinatorics);
     lresults();
 
