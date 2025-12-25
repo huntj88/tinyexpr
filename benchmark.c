@@ -33,12 +33,12 @@
 
 
 
-typedef double (*function1)(double);
+typedef float (*function1)(float);
 
 void bench(const char *expr, function1 func) {
     int i, j;
-    volatile double d;
-    double tmp;
+    volatile float d;
+    float tmp;
     clock_t start;
 
     te_variable lk = {"a", &tmp};
@@ -85,38 +85,38 @@ void bench(const char *expr, function1 func) {
         printf("\tinf\n");
 
 
-    printf("%.2f%% longer\n", (((double)eelapsed / nelapsed) - 1.0) * 100.0);
+    printf("%.2f%% longer\n", (((float)eelapsed / nelapsed) - 1.0) * 100.0);
 
 
     printf("\n");
 }
 
 
-double a5(double a) {
+float a5(float a) {
     return a+5;
 }
 
-double a55(double a) {
+float a55(float a) {
     return 5+a+5;
 }
 
-double a5abs(double a) {
-    return fabs(a+5);
+float a5abs(float a) {
+    return fabsf(a+5);
 }
 
-double a52(double a) {
+float a52(float a) {
     return (a+5)*2;
 }
 
-double a10(double a) {
+float a10(float a) {
     return a+(5*2);
 }
 
-double as(double a) {
-    return sqrt(pow(a, 1.5) + pow(a, 2.5));
+float as(float a) {
+    return sqrtf(powf(a, 1.5f) + powf(a, 2.5f));
 }
 
-double al(double a) {
+float al(float a) {
     return (1/(a+1)+2/(a+2)+3/(a+3));
 }
 

@@ -39,7 +39,7 @@ static void add_history(const char *line) {}
 
 static int eval(const char *str) {
     int err = 0;
-    double r = te_interp(str, &err);
+    float r = te_interp(str, &err);
     if (err != 0) {
         printf("Error at position %i\n", err);
         return -1;
